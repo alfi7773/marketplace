@@ -1,0 +1,30 @@
+<div class="div_nav">
+    <nav>
+        <div>
+            <h1>
+                <a href="/">
+                    Eclusive
+                </a>
+            </h1>
+        </div>
+        <div class="display">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'register' %}">Sign Up</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'profile' %}">{{ request.user }}</a></li>
+                {% endif %}
+
+            </ul>
+            <!--            <div class="icons">-->
+            <form class="form-search" action="{% url 'main' %}" method="get">
+                <input class="search" type="search" placeholder="What are you search?"
+                value="{{ request.GET.search }}"> <i
+                    class="fa-solid fa-magnifying-glass"></i>
+            </form>
+            <!--            </div>-->
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}| Profile Workspace{% endblock title %}
+{% block content %}
+<div>
+    <h1 class="text-center">Welcome to Workspace {{ user }}</h1>
+    <div class="display text-left">
+        <div class="profile-avatar"></div>
+        <div>
+            <h2>
+                {{user}}
+            </h2>
+            <h3>
+                {{user.first_name}} {{user.last_name}}
+            </h3>
+            <h3>
+                {{user.email}}
+            </h3>
+        </div>
+
+        <div class="text-center pad-50 footer-display-col">
+            <button>
+                <a href="{% url 'create' %}">
+                    Create New Publication
+                </a>
+            </button>
+
+            <button>
+                <a href="{% url 'change' %}">
+                    Update Profile
+                </a>
+            </button>
+
+            <button>
+                <a href="">
+                    Update Password
+                </a>
+            </button>
+        </div>
+    </div>
+    <hr>
+
+    <div>
+        <div class="display-products">
+            {% for product in products %}
+            <a href="{% url 'details' product.id %}">
+                <div>
+                    <img src="{{product.image.url}}" class="width-200" alt="...">
+                    <p>{{ product.name }}</p>
+                    <p class="red-text">${{ product.price }}</p>
+            </a>
+            <button>
+                <a href="{% url 'update' id=product.id %}">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </a>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+
+{% endblock content %}

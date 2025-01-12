@@ -1,0 +1,32 @@
+<div class="back-orange">
+    {% if products.has_previous or products.has_next %}
+    <div class="">
+        {% if products.has_previous %}
+<!--        <a class="page-link gray" href="?page={{ products.previous_page_number }}">-->
+<!--            <<-->
+<!--        </a>-->
+        <a class="page-link black" href="?page={{ products.previous_page_number }}">
+            <
+        </a>
+        {% endif %}
+
+        {% for i in products.paginator.page_range %}
+        {% if products.number == i %}
+        <span class="padding-orange">{{ i }}</span>
+        {% else %}
+        <a class="padding-solid black" href="?page={{ i }}">{{ i }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if products.has_next %}
+        <a class="page-link black" href="?page={{ products.next_page_number }}">
+            >
+        </a>
+<!--        <a class="page-link gray" href="?page={{ products.next_page_number }}">-->
+<!--            >>-->
+<!--        </a>-->
+        {% endif %}
+        {% endif %}
+
+    </div>
+</div>

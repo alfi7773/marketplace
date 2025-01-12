@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}| Login{% endblock title %}
+{% block content %}
+<div class="pad-right-50">
+    <div class="display">
+        <div class="pad-right-50">
+            <div class="for-register-login te"></div>
+        </div>
+        <div class="text-center">
+
+            <h1>Log in to Exclusive</h1>
+            <p>Enter your details below</p>
+            <form action="{% url 'register' %}" method="post" novalidate>
+                {% csrf_token %}
+                <div class="forms">
+                    {{ form.username }}
+                </div>
+                <div class="forms">
+                    {{ form.password }}
+                </div>
+
+
+                <!--                {{ form.as_p }}-->
+                <div class="red-text">
+                    {{ form.username.errors }}
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

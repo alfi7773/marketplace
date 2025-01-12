@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}| Register{% endblock title%}
+{% block content %}
+<div class="pad-right-50">
+    <div class="display">
+        <div class="pad-right-50">
+            <div class="for-register-login te"></div>
+        </div>
+        <div class="text-center">
+
+            <h1>Create an account</h1>
+            <p>Enter your details below</p>
+            <form action="{% url 'register' %}" method="post" novalidate>
+                {% csrf_token %}
+                <div class="forms">
+                    {{ form.username }}
+                </div>
+                <div class="forms">
+                    {{ form.first_name }}
+                </div>
+                <div class="forms">
+                    {{ form.last_name }}
+                </div>
+                <div class="forms">
+                    {{ form.email }}
+                </div>
+                <div class="forms">
+                    {{ form.password1 }}
+                </div>
+                <div class="forms">
+                    {{ form.password2 }}
+                </div>
+
+                <!--                {{ form.as_p }}-->
+                <div class="red-text">
+                    {{ form.username.errors }}
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

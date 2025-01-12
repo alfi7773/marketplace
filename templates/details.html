@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+| Details
+{% endblock title %}
+
+{% block content %}
+<div>
+
+
+    <div class="display">
+        <div class="footer-display-col">
+            {% if product.image1 %}
+            <img class="for-img" src="{{ product.image1.url }}" alt="Image 2">
+            {% else %}
+            <p>No additional image available</p>
+            {% endif %}
+
+            {% if product.image2 %}
+            <img class="for-img" src="{{ product.image2.url }}" alt="Image 2">
+            {% else %}
+            <p>No additional image available</p>
+            {% endif %}
+
+            {% if product.image3 %}
+            <img class="for-img" src="{{ product.image3.url }}" alt="Image 3">
+            {% else %}
+            <p>No additional image available</p>
+            {% endif %}
+
+            {% if product.image4 %}
+            <img class="for-img" src="{{ product.image4.url }}" alt="Image 4">
+            {% else %}
+            <p>No additional image available</p>
+            {% endif %}
+        </div>
+
+        {% if product.image %}
+        <img class="for-main-img" src="{{ product.image.url }}" alt="Image 1">
+        {% else %}
+        <p>No image available</p>
+        {% endif %}
+
+        <div>
+            <div>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <p>{{ product.category.name }}</p>
+            </div>
+            <form method="post" action="{% url 'rate_product' product.id %}">
+                <div class="stars" data-product-id="{{ product.id }}">
+                    {% for i in range %}
+                    <span
+                            class="star {% if forloop.counter <= product.rating %}filled{% endif %}"
+                            data-value="{{ forloop.counter }}">
+                        ★
+                </span>
+                    {% endfor %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

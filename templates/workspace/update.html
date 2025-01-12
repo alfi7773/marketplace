@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+| Create new Publication
+{% endblock title %}
+{% block content %}
+<div class="create form-container">
+    <form action="{% url 'update' id=id %}" method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            Save Changes
+        </button>
+    </form>
+</div>
+{%endblock content%}
