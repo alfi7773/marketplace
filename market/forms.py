@@ -28,25 +28,36 @@ class LoginForm(forms.Form):
     }))
 
 
-class RegistrationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'forms', 'placeholder' : 'username'}),
-             'email': forms.EmailInput(attrs={'class': 'forms', 'placeholder' : 'email'}),
-             'first_name' : forms.TextInput(attrs={'class': 'forms', 'placeholder':'first_name'}),
-             'last_name' : forms.TextInput(attrs={'class': 'forms', 'placeholder':'last_name'}),
-             'password1' : forms.PasswordInput(attrs={'class': 'input-box', 'placeholder':'password1'}),
-             'password2' : forms.PasswordInput(attrs={'class': 'input-box', 'placeholder':'password2'})
-        }
+class RegisterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'forms', 'placeholder': 'password1'})
-        self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'forms', 'placeholder': 'password2'})
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
 
+    password1 = forms.CharField(label='Придумайте пароль',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+                                validators=[validate_password])
 
+    password2 = forms.CharField(label='Придумайте пароль',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+        )
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
 
 class ChangePasswordForm(forms.Form):
 

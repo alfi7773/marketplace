@@ -120,7 +120,7 @@ nav {
 .display-products {
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
+    gap: 50px;
     /*margin: 0;*/
 }
 
@@ -129,7 +129,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     gap: 40px;
-    margin: 0c;
+    /*margin: 0c;*/
 }
 
 button {
@@ -393,12 +393,16 @@ footer {
     font-family: Inter, sans-serif;
 }
 
-.padding-orange {
+.padding-red {
     padding: 5px 10px;
-    background-color: #F57520;
+    background-color: #931b1b;
 }
 
 .padding-solid {
     padding: 5px 10px;
     border: solid 1px rgb(128, 128, 128, 0.3);
+}
+
+.forms label {
+    font-size: 20px;
 }

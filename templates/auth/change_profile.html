@@ -1,18 +1,31 @@
+
+
+
+
 {% extends 'base.html' %}
-{% block title %}
-Change Profile
-{% endblock %}
+{% block title %}| Login{% endblock title %}
 {% block content %}
-<div>
-    <form action="{% url 'change' %}" method="POST" novalidate>
-        {% csrf_token %}
-        <div>
-            {{ form.as_p }}
+<div class="pad-right-50">
+    <div class="display">
+        <div class="pad-right-50">
+            <div class="for-register-login te"></div>
         </div>
-        <div class="red-text">{{ form.errors }}</div>
-        <button type="submit">
-            Change Profile
-        </button>
-    </form>
+        <div class="text-center">
+
+            <form action="{% url 'change' %}" method="post">
+                {% csrf_token %}
+                <div class="forms">
+                    {{ form.as_p }}
+                </div>
+
+
+                <!--                {{ form.as_p }}-->
+                <div class="red-text">
+                    {{ form.username.errors }}
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock content %}

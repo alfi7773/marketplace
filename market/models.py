@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import PROTECT
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.contrib.auth.models import User
 class Color(models.Model):
 
     class Meta:
@@ -72,7 +72,7 @@ class Product(models.Model):
     name = models.CharField(verbose_name='название', max_length=100)
     description = models.TextField(verbose_name='описание')
     color = models.ManyToManyField('market.Color', verbose_name='выберите цвета', related_name='product')
-    size = models.ManyToManyField('market.Size', verbose_name='выберите размер')
+    size = models.ManyToManyField('market.Size', verbose_name='выберите размер', blank=True, null=True)
     image = models.ImageField(verbose_name='фото', upload_to='images_products/')
     image1 = models.ImageField(verbose_name='фото1', upload_to='images_products/', blank=True, null=True)
     image2 = models.ImageField(verbose_name='фото2', upload_to='images_products/', blank=True, null=True)
@@ -80,9 +80,12 @@ class Product(models.Model):
     image4 = models.ImageField(verbose_name='фото4', upload_to='images_products/', blank=True, null=True)
     price = models.DecimalField(verbose_name='цена', max_digits=10, decimal_places=2)
     category = models.ForeignKey('market.Category', on_delete=PROTECT, related_name='product')
+    types = models.ForeignKey('market.Type', on_delete=PROTECT, related_name='product', blank=True, null=True)
     old_price = models.DecimalField(verbose_name='цена', max_digits=10, decimal_places=2, blank=True, null=True)
     view = models.PositiveIntegerField(verbose_name='просмотры', default=0, validators=[MinValueValidator(0)])
     rating = models.IntegerField(default=0, choices=[(i, f"{i} Stars") for i in range(1, 6)])
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='news', verbose_name='автор',
+                                   null=True)
 
 
     def __str__(self):

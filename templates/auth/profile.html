@@ -30,7 +30,7 @@
             </button>
 
             <button>
-                <a href="">
+                <a href="{% url 'password' %}">
                     Update Password
                 </a>
             </button>
@@ -41,6 +41,7 @@
     <div>
         <div class="display-products">
             {% for product in products %}
+            <div>
             <a href="{% url 'details' product.id %}">
                 <div>
                     <img src="{{product.image.url}}" class="width-200" alt="...">
@@ -48,8 +49,19 @@
                     <p class="red-text">${{ product.price }}</p>
                 </div>
             </a>
-            {% endfor %}
+            <form method="post" action="{% url 'rate_product' product.id %}">
+                <div class="stars" data-product-id="{{ product.id }}">
+                    {% for i in range %}
+                    <span
+                            class="star {% if forloop.counter <= product.rating %}filled{% endif %}"
+                            data-value="{{ forloop.counter }}">
+                            ★
+                    </span>
+                    {% endfor %}
+                </div>
+            </form>
         </div>
+            {% endfor %}
     </div>
 </div>
     {% include 'companents/pagination.html' %}

@@ -60,4 +60,45 @@
         </div>
     </div>
 </div>
+
+<div class="pad-50">
+    <div>
+        <h1>
+            Related Item
+        </h1>
+    </div>
+    <div class="display-products">
+        {% for product in products|slice:":5" %}
+        <div>
+            <a href="{% url 'details' product.id %}">
+                <img src="{{product.image.url}}" class="width-200" alt="...">
+                <p>{{ product.name }}</p>
+                <p class="red-text">${{ product.price }}</p>
+            </a>
+
+            <form method="post" action="{% url 'rate_product' product.id %}">
+                <div class="stars" data-product-id="{{ product.id }}">
+                    {% for i in range %}
+                    <span
+                            class="star {% if forloop.counter <= product.rating %}filled{% endif %}"
+                            data-value="{{ forloop.counter }}">
+                            ★
+                    </span>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="pad-50">
+        <center>
+            <button>
+                <a href="">
+                    View All Products
+                </a>
+            </button>
+        </center>
+    </div>
+</div>
+
 {% endblock content %}

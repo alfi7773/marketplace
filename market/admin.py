@@ -11,8 +11,18 @@ admin.site.register(Type)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'rating', 'price', 'get_image')
+    list_display = ('name', 'category', 'types',
+     'rating', 'price', 'get_image', 'author')
     readonly_fields = ('view', 'get_full_image')
+    list_filter = ('name', 'category','price','rating', 'author')
+    search_fields = (
+            'name',
+            'description',
+            'price',
+            'author',
+            'category__name',
+        )
+
 
     @admin.display(description='изображение')
     def get_image(self, product):

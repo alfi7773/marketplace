@@ -1,0 +1,14 @@
+<div class="display-col">
+    <form class="" action="{% url 'catalogue' %}" method="get">
+        <div class="for-id">
+            <div class="forms">
+                <div class="for-label">
+                    {{ form.label }}
+                </div>
+                {{ filter.form.as_div }}
+            </div>
+        </div>
+        <button type="submit" class="btn">Filter</button>
+        <button type="reset" class="btn">Reset</button>
+    </form>
+</div>

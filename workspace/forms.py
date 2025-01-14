@@ -10,7 +10,16 @@ from django.db.models.fields import DecimalField
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'description', 'color', 'size', 'image', 'price', 'category', 'rating',)
+        fields = ('name', 'description', 'color', 'size', 'image', 'image1', 'image2', 'image3', 'image4', 'price', 'category', 'types', 'author', 'rating',)
+
+
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['image1'].required = False
+            self.fields['image2'].required = False
+            self.fields['image3'].required = False
+            self.fields['image4'].required = False
+            self.fields['size'].required = False
 
 
 

@@ -5,7 +5,7 @@ from market.models import *
 
 def workspace(request):
         user = request.user
-        products = Product.objects.all()
+        products = Product.objects.filter(author=request.user).order_by('name')
         return render(request, 'workspace/index.html', {
         'user':user,
         'products':products,

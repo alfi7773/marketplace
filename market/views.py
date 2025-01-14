@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from user_profile.forms import LoginForm, RegistrationForm, ChangePasswordForm, ProfileChange
-# from .filter import BicycleFilter
+from .filter import ProductFilter
 # from workspace.decorators import login_required
 from django.contrib.auth.hashers import make_password
 
@@ -21,7 +21,6 @@ def rate_product(request, product_id):
             data = json.loads(request.body)
             rating = int(data.get('rating', 0))
 
-            # Обновляем рейтинг продукта
             product.rating = rating
             product.save()
 
@@ -31,22 +30,11 @@ def rate_product(request, product_id):
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
     return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
-
-
 def main(request):
     products = Product.objects.all()
     categories = Category.objects.all()
     advertising = Advertising.objects.all()
     types = Type.objects.all()
-
-    search = request.GET.get('search', '')
-    print(search)
-
-    if search:
-        products = products.filter(name__icontains=search)
-
-
-
 
 
     title = 'Exclusive.kg'
@@ -56,23 +44,62 @@ def main(request):
             'advertising':advertising,
             'types':types,
             'title': title,
-            'range': range(1,6),
-            'search':search,
+            'range': range(1,6)
             })
 
+def catalogue(request):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    advertising = Advertising.objects.all()
+    types = Type.objects.all()
+
+    search = request.GET.get('search')
+    if search:
+        products = products.filter(name__icontains=search)
+
+    filter_set = ProductFilter(data=request.GET, queryset=products)
+    products = filter_set.qs
+
+    try:
+        page_size = int(request.GET.get('limit', 6))
+    except ValueError:
+        page_size = 6
+    page = int(request.GET.get('page', 1))
+
+    paginator = Paginator(products, page_size)
+    products = paginator.get_page(page)
+
+    return render(request, 'catalogue.html', {
+        'products': products,
+        'categories': categories,
+        'advertising': advertising,
+        'types': types,
+        'range': range(1, 6),
+        'filter': filter_set,
+    })
+
+
 def register_profile(request):
+    if request.user.is_authenticated:
+            return redirect('/')
+
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+                user = form.save()
+                login(request, user)
+                return redirect('workspace')
     else:
         form = RegistrationForm()
+
     return render(request, 'auth/register.html', {'form': form})
+
+    # Create your views here.
 
 
 def login_profile(request):
-
+    if request.user.is_authenticated:
+            return redirect('/')
 
     form = LoginForm()
     if request.method == 'POST':
@@ -82,10 +109,15 @@ def login_profile(request):
                 username = form.cleaned_data.get('username')
                 password = form.cleaned_data.get('password')
 
-                user = authenticate(request, username=username, password=password)
+                # user = User.objects.filter(username=username).first()
+                # if user and user.check_password(password):
+                user = authenticate(username=username, password=password)
                 if user:
                     login(request, user)
-                    return redirect('/')
+
+                    return redirect('workspace')
+
+                messages.error(request, 'The user is not found or the password is incorrect.')
 
     return render(request, 'auth/login.html', {'form': form})
 
@@ -97,11 +129,11 @@ def logout_views(request):
 
 def profile(request):
     user = request.user
-    products = Product.objects.all()
+    products = Product.objects.filter(author=request.user).order_by('name')
 
     page_size = int(request.GET.get('limit', 6))
     page = int(request.GET.get('page', 1))
-    bicycles = Product.objects.all().order_by('id')
+#     products = Product.objects.all().order_by('id')
 
     paginator = Paginator(products, page_size)
     products = paginator.get_page(page)
@@ -109,7 +141,7 @@ def profile(request):
     return render(request, 'auth/profile.html', {
     'user':user,
     'products':products,
-
+    'range':range(1,6)
     })
 
 def change_profile(request):
@@ -125,6 +157,24 @@ def change_profile(request):
 
     return render(request, 'auth/change_profile.html', {'form':form, 'user':user})
 
+def change_password(request):
+    form = ChangePasswordForm()
+
+    if request.method == 'POST':
+        form = ChangePasswordForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            new_password = form.cleaned_data.get('new_password')
+            user = request.user
+            # user.password = make_password(new_password)
+            user.set_password(new_password)
+            user.save()
+
+            login(request, user)
+
+            messages.success(request, 'The password was modified successfully.')
+            return redirect('/workspace/')
+
+    return render(request, 'auth/change_password.html', {'form': form})
 
 def details(request, id):
     product = get_object_or_404(Product, id=id)
@@ -132,8 +182,10 @@ def details(request, id):
 #     print(f"Product image1 path: {product.image1.url}")
     size = Size.objects.all()
     color = Color.objects.all()
+    products = Product.objects.all()
     return render(request, 'details.html', {
         'product': product,
+        'products':products,
         'size': size,
         'color': color,
         'range':range(1, 6),
@@ -150,4 +202,20 @@ def category_elements(request, id):
         'products':products,
     })
 
+def type_elements(request, id):
+    type = get_object_or_404(Type, id=id)
+    products = Product.objects.filter(types=type)
+
+    return render(request, 'types_elements.html', {
+        'type':type,
+        'id':id,
+        'products':products,
+    })
+
+def reklama(request):
+    products = Product.objects.filter(category__name='Electronics')
+
+    return render(request, 'reklama.html', {
+    'products':products,
+    })
 # Create your views here.
