@@ -63,6 +63,25 @@ class Category(models.Model):
         return self.name
 
 
+class Review(models.Model):
+    product = models.ForeignKey('market.Product', on_delete=models.PROTECT, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(choices=[(i, f"{i} Stars") for i in range(1, 6)])
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.user} for {self.product.name}"
+
+
+class ProductRating(models.Model):
+    product = models.ForeignKey('market.Product', on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(choices=[(i, f"{i} Stars") for i in range(1, 6)])
+
+    class Meta:
+        unique_together = ('product', 'user')
+
+
 class Product(models.Model):
 
     class Meta:
@@ -86,9 +105,19 @@ class Product(models.Model):
     rating = models.IntegerField(default=0, choices=[(i, f"{i} Stars") for i in range(1, 6)])
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='news', verbose_name='автор',
                                    null=True)
+    total_rating = models.PositiveIntegerField(default=0)
+    total_reviews = models.PositiveIntegerField(default=0)
+    date = models.DateTimeField(verbose_name='date', auto_now_add=True)
+
 
 
     def __str__(self):
         return self.name
+
+    def get_average_rating(self):
+            reviews = self.reviews.all()
+            if reviews.exists():
+                return sum([review.rating for review in reviews]) / reviews.count()
+            return 0
 
 # Create your models here.

@@ -9,11 +9,13 @@
         </div>
         <div class="display">
             <ul>
+                {% if not user.is_authenticated %}
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'register' %}">Sign Up</a></li>
                 <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'catalogue' %}">Catalogue</a></li>
+                {% endif %}
                 {% if user.is_authenticated %}
+                <li><a href="{% url 'catalogue' %}">Catalogue</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
                 <li><a href="{% url 'profile' %}">{{ request.user }}</a></li>
                 {% endif %}

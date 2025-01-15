@@ -132,12 +132,18 @@ nav {
     /*margin: 0c;*/
 }
 
+.display-row {
+    display: flex;
+    flex-direction: row;
+}
+
 button {
     border: none;
     outline: none;
     padding: 15px 25px;
     background-color: #931b1b;
     border-radius: 10px;
+    color: white;
 }
 
 button a {
@@ -299,21 +305,11 @@ footer {
     display: flex;
     gap: 5px;
 }
-.star {
-    font-size: 24px;
-    color: gray;
+.star-filled {
+    color: yellow;
 }
-.star.filled {
-    color: gold;
-}
-
-.star {
-    font-size: 24px;
-    color: gray;
-    cursor: pointer;
-}
-.star.filled {
-    color: gold;
+.star-empty {
+    color: grey;
 }
 
 .for-register-login {
@@ -405,4 +401,17 @@ footer {
 
 .forms label {
     font-size: 20px;
+}
+
+
+.display ul {
+    /* display: flex
+; */
+    /* list-style: none; */
+    gap: 50px;
+}
+
+ul.errorlist {
+    display: flex;
+    flex-direction: column;
 }

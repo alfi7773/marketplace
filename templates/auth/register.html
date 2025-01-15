@@ -14,27 +14,43 @@
                 {% csrf_token %}
                 <div class="forms">
                     {{ form.username }}
+                    <div class="red-text">
+                        {{ form.username.errors }}
+                    </div>
                 </div>
                 <div class="forms">
                     {{ form.first_name }}
+                    <div class="red-text">
+                        {{ form.first_name.errors }}
+                    </div>
                 </div>
                 <div class="forms">
                     {{ form.last_name }}
+                    <div class="red-text">
+                        {{ form.last_name.errors }}
+                    </div>
                 </div>
                 <div class="forms">
                     {{ form.email }}
+                    <div class="red-text">
+                        {{ form.email.errors }}
+                    </div>
                 </div>
                 <div class="forms">
                     {{ form.password1 }}
+                    <div class="red-text">
+                        {{ form.password2.errors }}
+                    </div>
                 </div>
                 <div class="forms">
                     {{ form.password2 }}
+                    <div class="red-text">
+                        {{ form.password1.errors }}
+                    </div>
                 </div>
 
                 <!--                {{ form.as_p }}-->
-                <div class="red-text">
-                    {{ form.username.errors }}
-                </div>
+
                 <button type="submit">Register</button>
             </form>
         </div>

@@ -47,17 +47,27 @@
                 <p>{{ product.description }}</p>
                 <p>{{ product.category.name }}</p>
             </div>
-            <form method="post" action="{% url 'rate_product' product.id %}">
-                <div class="stars" data-product-id="{{ product.id }}">
-                    {% for i in range %}
-                    <span
-                            class="star {% if forloop.counter <= product.rating %}filled{% endif %}"
-                            data-value="{{ forloop.counter }}">
-                        ★
-                </span>
-                    {% endfor %}
+            <div>
+                {% for i in range %}
+                {% if i <= average_rating %}
+                <span class="star-filled">★</span>
+                {% else %}
+                <span class="star-empty">☆</span>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% if user.is_authenticated %}
+            <h3>Оставить рейтинг</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Оценить</button>
             </form>
+            {% else %}
+            <p>Пожалуйста, авторизуйтесь, чтобы оставить рейтинг.</p>
+            {% endif %}
         </div>
+            <p>{{ product.date }}</p>
     </div>
 </div>
 

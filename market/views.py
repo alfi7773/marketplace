@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from user_profile.forms import LoginForm, RegistrationForm, ChangePasswordForm, ProfileChange
+from user_profile.forms import LoginForm, RegistrationForm, ChangePasswordForm, ProfileChange, ProductRatingForm
 from .filter import ProductFilter
 # from workspace.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -171,24 +171,47 @@ def change_password(request):
 
             login(request, user)
 
-            messages.success(request, 'The password was modified successfully.')
-            return redirect('/workspace/')
+#             messages.success(request, 'The password was modified successfully.')
+            return redirect('workspace')
 
     return render(request, 'auth/change_password.html', {'form': form})
 
+
 def details(request, id):
     product = get_object_or_404(Product, id=id)
-    print(f"Product image path: {product.image.url}")
-#     print(f"Product image1 path: {product.image1.url}")
-    size = Size.objects.all()
-    color = Color.objects.all()
     products = Product.objects.all()
+
+#     user_rating = ProductRating.objects.filter(product=product, user=request.user).first()
+
+    if request.method == 'POST' and request.user.is_authenticated:
+        form = ProductRatingForm(request.POST)
+        if form.is_valid():
+            if user_rating:
+                user_rating.rating = form.cleaned_data['rating']
+                user_rating.save()
+            else:
+                ProductRating.objects.create(
+                    product=product,
+                    user=request.user,
+                    rating=form.cleaned_data['rating']
+                )
+            product.total_rating = sum([r.rating for r in product.ratings.all()])
+            product.total_reviews = product.ratings.count()
+            product.save()
+
+            return redirect('details', id=id)
+    else:
+        form = ProductRatingForm()
+
+    # Получаем средний рейтинг товара
+    average_rating = product.get_average_rating()
+
     return render(request, 'details.html', {
         'product': product,
-        'products':products,
-        'size': size,
-        'color': color,
-        'range':range(1, 6),
+        'products': products,
+        'form': form,
+        'average_rating': average_rating,
+        'range': range(1, 6),
     })
 
 

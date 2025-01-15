@@ -10,12 +10,17 @@ class ProfileChange(forms.ModelForm):
         fields = ['username', 'first_name','last_name', 'email']
 
     widgets = {
-                'username': forms.TextInput(attrs={'class': 'input-box', 'placeholder' : 'username'}),
-                 'email': forms.EmailInput(attrs={'class': 'input-box', 'placeholder' : 'email'}),
-                 'first_name' : forms.TextInput(attrs={'class': 'input-box', 'placeholder':'first_name'}),
-                 'last_name' : forms.TextInput(attrs={'class': 'input-box', 'placeholder':'last_name'}),
+                'username': forms.TextInput(attrs={'class': 'input-box', 'placeholder' : 'username', 'label': 'username'}),
+                 'first_name' : forms.TextInput(attrs={'class': 'input-box', 'placeholder':'first_name', 'label':'first_name'}),
+                 'last_name' : forms.TextInput(attrs={'class': 'input-box', 'placeholder':'last_name', 'label':'last_name'}),
+                 'email': forms.EmailInput(attrs={'class': 'input-box', 'placeholder' : 'email', 'label':'email'}),
             }
 
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['first_name'].required = True
+            self.fields['last_name'].required = True
+            self.fields['email'].required = True
 
 
 class LoginForm(forms.Form):
@@ -41,42 +46,65 @@ class RegistrationForm(UserCreationForm):
              'password2' : forms.PasswordInput(attrs={'class': 'input-box', 'placeholder':'password2'})
         }
 
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'width-form', 'placeholder': 'password1'})
         self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'width-form', 'placeholder': 'password2'})
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
+
+class ProductRatingForm(forms.ModelForm):
+    class Meta:
+        model = ProductRating
+        fields = ['rating']
+        widgets = {
+            'rating': forms.Select(choices=[(i, f"{i} Stars") for i in range(1, 6)]),
+        }
 
 
 class ChangePasswordForm(forms.Form):
-
     def __init__(self, *args, **kwargs):
         self.user: User = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-    old_password = forms.CharField(label='Старый пароль', widget=forms.PasswordInput(attrs={'class': 'width-form', 'placeholder': 'Старый пароль'}))
-    new_password = forms.CharField(label='Новый пароль', widget=forms.PasswordInput(attrs={'class': 'width-form', 'placeholder': 'Новый пароль'}),
-                                                                                            validators=[validate_password])
-    confirm_password = forms.CharField(label='Подтвердите пароль',
-                                       widget=forms.PasswordInput(attrs={'class': 'width-form', 'placeholder': 'Подтвердите пароль'}))
+    old_password = forms.CharField(
+        label='Old password',
+        widget=forms.PasswordInput(attrs={'class': 'footer-display-col', 'placeholder': 'Old password'})
+    )
+    new_password = forms.CharField(
+        label='New password',
+        widget=forms.PasswordInput(attrs={'class': 'width-form', 'placeholder': 'New Password'}),
+        validators=[validate_password]
+    )
+    confirm_password = forms.CharField(
+        label='Confirm password',
+        widget=forms.PasswordInput(attrs={'class': 'width-form', 'placeholder': 'Confirm password'})
+    )
 
     def clean(self):
-        if self.is_valid():
-            old_password, new_password, confirm_password = self.cleaned_data.values()
+        cleaned_data = super().clean()
+        old_password = cleaned_data.get('old_password')
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
 
-            errors = {}
+        errors = {}
 
-            if not self.user.check_password(old_password):
-                errors['old_password'] = ['Старый пароль неправильный.']
+        if not self.user.check_password(old_password):
+            errors['old_password'] = ['Old password is incorrect.']
 
+        if new_password != confirm_password:
+            errors['confirm_password'] = ['Passwords do not match.']
 
-            if new_password != confirm_password:
-                errors['confirm_password'] = ['Новые пароли не совпадают.']
+        if old_password == new_password:
+            errors['new_password'] = ['New password must not be the same as the old password.']
 
-            if old_password == new_password:
-                errors['new_password'] = ['Новый пароль не может быть похож на первый.']
+        if errors:
+            raise forms.ValidationError(errors)
 
-            if len(errors) > 0:
-                raise forms.ValidationError(errors)
+        return cleaned_data
 
-        return self.cleaned_data

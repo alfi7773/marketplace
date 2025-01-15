@@ -20,6 +20,7 @@ class ProductForm(forms.ModelForm):
             self.fields['image3'].required = False
             self.fields['image4'].required = False
             self.fields['size'].required = False
+            self.fields['rating'].required = False
 
 
 
