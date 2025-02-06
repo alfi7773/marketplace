@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+#     third party library
     'django_filters',
+    'django_cleanup',
 
     'market',
     'workspace',

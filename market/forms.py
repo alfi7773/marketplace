@@ -68,13 +68,7 @@ class RegisterForm(forms.ModelForm):
         }
 
 
-class ProductRatingForm(forms.ModelForm):
-    class Meta:
-        model = ProductRating
-        fields = ['rating']
-        widgets = {
-            'rating': forms.Select(choices=[(i, f"{i} Stars") for i in range(1, 6)]),
-        }
+
 
 class ChangePasswordForm(forms.Form):
     def __init__(self, *args, **kwargs):

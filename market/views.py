@@ -223,6 +223,7 @@ def category_elements(request, id):
         'category':category,
         'id':id,
         'products':products,
+        'range': range(1, 6)
     })
 
 def type_elements(request, id):
@@ -233,6 +234,7 @@ def type_elements(request, id):
         'type':type,
         'id':id,
         'products':products,
+        'range': range(1,6)
     })
 
 def reklama(request):

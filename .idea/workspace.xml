@@ -9,21 +9,10 @@
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/market/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/market/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/market/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/market/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/market/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/market/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/market/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/market/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/static_dirs/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/static_dirs/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/change_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/auth/change_password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/change_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/auth/change_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/auth/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/auth/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/companents/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/companents/nav.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/details.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/workspace/create.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/workspace/create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/workspace/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/workspace/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_profile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_profile/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workspace/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/workspace/forms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +82,15 @@
       <workItem from="1736857718811" duration="6839000" />
       <workItem from="1736920455691" duration="5264000" />
       <workItem from="1736925984396" duration="5282000" />
-      <workItem from="1736944978699" duration="699000" />
+      <workItem from="1736944978699" duration="3990000" />
+      <workItem from="1736954404202" duration="991000" />
+      <workItem from="1737023586428" duration="2325000" />
+      <workItem from="1737030364569" duration="2121000" />
+      <workItem from="1737131606889" duration="1288000" />
+      <workItem from="1737551454960" duration="2140000" />
+      <workItem from="1737872051935" duration="1539000" />
+      <workItem from="1737982530437" duration="781000" />
+      <workItem from="1738139005213" duration="623000" />
     </task>
     <servers />
   </component>
